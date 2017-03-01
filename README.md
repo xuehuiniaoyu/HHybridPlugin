@@ -15,7 +15,7 @@ allprojects {
 	}
 }
 
-2.Add the dependency（添加以来到app下的build.gradle）
+2.Add the dependency（添加依赖到app下的build.gradle）
 
 dependencies {
 	...
