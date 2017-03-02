@@ -14,7 +14,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by tjy on 2016/12/5 0005.
@@ -22,12 +22,12 @@ import java.util.HashMap;
 public class App_configManager {
     public static String TAG = App_configManager.class.getSimpleName();
 
-    private static HashMap<String, App_config> logs = new HashMap<String, App_config>(0);
+    private static ConcurrentHashMap<String, App_config> logs = new ConcurrentHashMap<String, App_config>(0);
 
     /**
      * 因为java机制的限制，一个so文件被加载过一次就不能再一次加载了，所以classLaoder只能创建一次
      */
-    private static HashMap<String, PluginClassLoader> classLoaderHashMap = new HashMap<String, PluginClassLoader>(0);
+    private static ConcurrentHashMap<String, PluginClassLoader> classLoaderHashMap = new ConcurrentHashMap<String, PluginClassLoader>(0);
 
     public interface OnLoadConfigListener{
         void onSuccess(App_config app_config);
