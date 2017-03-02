@@ -19,7 +19,7 @@ allprojects {
 
 dependencies {
 	...
-	compile 'com.github.xuehuiniaoyu:HHybridPlugin:{last-version}'
+	compile 'com.github.xuehuiniaoyu:HHybridPlugin:{release/最后一个版本}'
 }
 
 ```
