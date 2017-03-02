@@ -29,7 +29,8 @@ classes.jar 可以直接引用到项目中，解决gradle不能使用provided的
 
 ## 产品定位及功能介绍
 
-	HHP 是一种全新的开发框架，基于Android平台建立的一套以插件为内容的框架；
+	HHybridPlugin是一款Android应用层的热更新框架.
+
 	优点：
 
 	1.支持动态UI布局。
