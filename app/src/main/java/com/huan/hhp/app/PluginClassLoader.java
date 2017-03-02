@@ -25,4 +25,13 @@ public class PluginClassLoader extends DexClassLoader {
     public String getPackage() {
         return pkg;
     }
+
+    @Override
+    public Class<?> loadClass(String className) throws ClassNotFoundException {
+        Class<?> clz;
+        if((clz = super.findLoadedClass(className)) != null) {
+            return clz;
+        }
+        return super.loadClass(className);
+    }
 }
