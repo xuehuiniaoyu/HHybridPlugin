@@ -24,6 +24,8 @@ dependencies {
 
 ```
 
+classes.jar 可以直接引用到项目中，解决gradle不能使用provided的bug。
+
 
 ## 产品定位及功能介绍
 
