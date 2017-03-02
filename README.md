@@ -29,7 +29,7 @@ classes.jar 可以直接引用到项目中，解决gradle不能使用provided的
 
 ## 产品定位及功能介绍
 
-	HHybridPlugin是一款Android应用层的热更新框架.
+	HHybridPlugin（HHP）是一款Android应用层的热更新框架.
 
 	优点：
 
