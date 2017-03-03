@@ -39,7 +39,7 @@ classes.jar 可以直接引用到项目中，解决gradle不能使用provided的
 	4.配置文件灵活管理项目。
 	5.本地缓存可以设置有效时间，过期后自动删除。
 	6.支持自定义组件等。
-	7.插件支持.os库文件。
+	7.插件支持.so库文件。
 	8.主要使用java classLoader和reflect技术实现，是android应用层的扩展。
 
 	缺点：
