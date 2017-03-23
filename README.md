@@ -427,6 +427,7 @@ public class TextViewMapping extends ViewMapping {
 
     ...
 }
+`
 
 布局的时候就可以写么写：
 <TextView text="hello" textSize="12sp" textColor="#cc0000" />
