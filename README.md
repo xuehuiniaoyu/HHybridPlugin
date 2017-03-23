@@ -411,3 +411,104 @@ HHPlugin.jar 根目录有一个文件 `hhp.dtd` 如果你是用IDEA或Eclipse开
 </app-config>
 ```
 工具都会带有自动提示功能。
+
+
+## 自定义控件 ViewMapping
+
+ViewMapping 是View的映射，举个栗子：
+`
+public class TextViewMapping extends ViewMapping {
+    // 把属性映射到方法
+    {
+        mapping("text", new StringTypeOf("setText", CharSequence.class));
+        mapping("textSize", new DimenTypeOf("setTextSize", float.class));
+        mapping("textColor", new TypeOf("this.setTextColor", String.class));
+    }
+
+    ...
+}
+
+布局的时候就可以写么写：
+<TextView text="hello" textSize="12sp" textColor="#cc0000" />
+
+
+那么问题来了！
+这些属性是如何被解析呢？
+
+
+protected void mapping(String from, TypeOf to){
+	this.put(from, to);
+}
+
+看过源代码中mapping方法就会发现，这是一个以键值形式作为映射的。第一个参数form是键也就是属性名，第二个参数to是值，也就是属性对应的内容。比如：
+name="张三"
+
+TypeOf又是个什么东西呢？
+继续往下看
+
+public TypeOf(String name, Class<?> type) {
+	this.name = name;
+	this.type = type;
+}
+
+还是键值形式，第一个参数name是java类的方法名或属性名，第二个参数type是方法对应的参数类型，目前版本之提供了接收一个参数。
+那么前面说了，name是java类的一个方法，这个java类到底怎么确定？
+用两个例子说明：
+mapping("textSize", new DimenTypeOf("setTextSize", float.class));
+mapping("textColor", new TypeOf("this.setTextColor", String.class));
+
+这是两个行映射，我们可以发现唯一的区别是第二条比第一条在TypeOf参数中，多了一个`this.`
+`this.` 代表从当前类取方法；如果没有`this.` 就从mView中取方法。（mView）是当前类映射的 Android控件
+
+当然你也可以 this.mView.setText 这样也是可以得，你有多少个对象你就可以无限的 `.` 下去。
+
+
+说完方法映射，再来说下如何绑定View给当前类。
+
+
+public class TabPagerMapping extends ViewGroupMapping {
+    {
+        forTag(TabPager.class.getName());
+    }
+
+    public TabPagerMapping(Context context, String name) {
+        super(context, name);
+    }
+}
+
+forTag 后 mView 对象就被创建。
+
+
+最后看下整个自定义View的步骤：
+
+1. 创建 ViewMapping
+public class TabPagerMapping extends ViewGroupMapping {
+    {
+        forTag(TabPager.class.getName());
+    }
+
+    public TabPagerMapping(Context context, String name) {
+        super(context, name);
+    }
+}
+
+forTag 传递的class 是Android原生View
+
+2. 注册ViewMapping
+在Application onCreate 方法中添加以下代码
+
+// 这里把该注册的类的注册了, 注意：这里注册时是Mapping 而不是 View
+HwMappings.getSingleInstance().addMappingReference("TabPager", TabPagerMapping.class.getName());
+
+这样就完成了映射，注意Application一定是PluginApplication的子类。
+
+3. 在布局中使用
+
+<TabPager />
+
+记住这里是 TabPager 不是 TabPagerMapping
+
+
+好了，至此一个自定义View就完成了。是不是很方便？
+
+`
