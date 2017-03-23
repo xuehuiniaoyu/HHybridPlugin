@@ -416,7 +416,7 @@ HHPlugin.jar 根目录有一个文件 `hhp.dtd` 如果你是用IDEA或Eclipse开
 ## 自定义控件 ViewMapping
 
 ViewMapping 是View的映射，举个栗子：
-`
+
 public class TextViewMapping extends ViewMapping {
     // 把属性映射到方法
     {
@@ -427,7 +427,7 @@ public class TextViewMapping extends ViewMapping {
 
     ...
 }
-`
+
 
 布局的时候就可以写么写：
 <TextView text="hello" textSize="12sp" textColor="#cc0000" />
