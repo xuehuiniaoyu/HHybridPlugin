@@ -417,6 +417,8 @@ HHPlugin.jar 根目录有一个文件 `hhp.dtd` 如果你是用IDEA或Eclipse开
 
 ViewMapping 是View的映射，举个栗子：
 
+
+```
 public class TextViewMapping extends ViewMapping {
     // 把属性映射到方法
     {
@@ -428,18 +430,27 @@ public class TextViewMapping extends ViewMapping {
     ...
 }
 
+```
 
 布局的时候就可以写么写：
+
+```
 <TextView text="hello" textSize="12sp" textColor="#cc0000" />
+
+```
 
 
 那么问题来了！
 这些属性是如何被解析呢？
 
 
+
+```
 protected void mapping(String from, TypeOf to){
 	this.put(from, to);
 }
+
+```
 
 看过源代码中mapping方法就会发现，这是一个以键值形式作为映射的。第一个参数form是键也就是属性名，第二个参数to是值，也就是属性对应的内容。比如：
 name="张三"
@@ -447,10 +458,14 @@ name="张三"
 TypeOf又是个什么东西呢？
 继续往下看
 
+
+```
 public TypeOf(String name, Class<?> type) {
 	this.name = name;
 	this.type = type;
 }
+
+```
 
 还是键值形式，第一个参数name是java类的方法名或属性名，第二个参数type是方法对应的参数类型，目前版本之提供了接收一个参数。
 那么前面说了，name是java类的一个方法，这个java类到底怎么确定？
@@ -467,6 +482,8 @@ mapping("textColor", new TypeOf("this.setTextColor", String.class));
 说完方法映射，再来说下如何绑定View给当前类。
 
 
+
+```
 public class TabPagerMapping extends ViewGroupMapping {
     {
         forTag(TabPager.class.getName());
@@ -476,6 +493,8 @@ public class TabPagerMapping extends ViewGroupMapping {
         super(context, name);
     }
 }
+
+```
 
 forTag 后 mView 对象就被创建。
 
@@ -483,6 +502,8 @@ forTag 后 mView 对象就被创建。
 最后看下整个自定义View的步骤：
 
 1. 创建 ViewMapping
+
+```
 public class TabPagerMapping extends ViewGroupMapping {
     {
         forTag(TabPager.class.getName());
@@ -492,6 +513,8 @@ public class TabPagerMapping extends ViewGroupMapping {
         super(context, name);
     }
 }
+
+```
 
 forTag 传递的class 是Android原生View
 
@@ -505,11 +528,13 @@ HwMappings.getSingleInstance().addMappingReference("TabPager", TabPagerMapping.c
 
 3. 在布局中使用
 
+
+```
 <TabPager />
+
+```
 
 记住这里是 TabPager 不是 TabPagerMapping
 
 
 好了，至此一个自定义View就完成了。是不是很方便？
-
-`
